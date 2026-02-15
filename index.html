@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>Resume Editor - 极简简历神器</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <style>
+        @media print { .no-print { display: none; } }
+        #preview { font-family: 'Inter', sans-serif; }
+        h1 { border-bottom: 2px solid #333; padding-bottom: 5px; margin-top: 20px; font-weight: bold; font-size: 24px; }
+        h2 { border-bottom: 1px solid #ddd; padding-bottom: 3px; margin-top: 15px; font-weight: bold; font-size: 20px; }
+        ul { list-style-type: disc; margin-left: 20px; margin-top: 10px; }
+        li { margin-bottom: 5px; }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex flex-col">
+
+    <header class="no-print bg-white border-b px-6 py-3 flex justify-between items-center shadow-sm">
+        <h1 class="text-xl font-bold text-slate-800 border-none m-0 p-0">Markdown Resume</h1>
+        <div class="flex gap-4">
+            <button onclick="window.print()" class="bg-indigo-600 text-white px-5 py-2 rounded-lg text-sm font-bold shadow-md hover:bg-indigo-700 transition-all">保存为 PDF</button>
+        </div>
+    </header>
+
+    <main class="flex-1 flex overflow-hidden">
+        <div class="no-print w-1/2 p-4 bg-gray-50 flex flex-col">
+            <textarea id="editor" class="flex-1 p-6 rounded-xl border focus:outline-none shadow-inner font-mono text-sm" placeholder="输入简历 Markdown..."></textarea>
+            
+            <div class="mt-4 p-4 bg-white rounded-xl border border-dashed text-center">
+                <p class="text-xs text-gray-500 mb-2">觉得简历好用？请作者喝杯咖啡 ☕</p>
+                <div class="flex justify-center gap-3">
+                    <a href="https://afdian.com/a/jin-ship-jack" target="_blank" class="bg-purple-500 text-white px-3 py-1.5 rounded-lg text-[10px]">爱发电支持</a>
+                    <button onclick="alert('请扫描右侧预览区底部的二维码')" class="bg-green-500 text-white px-3 py-1.5 rounded-lg text-[10px]">微信赞赏</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="w-full lg:w-1/2 overflow-y-auto bg-white p-8 md:p-12 shadow-2xl mx-auto" id="preview-container">
+            <div id="preview" class="max-w-[800px] mx-auto min-h-screen text-gray-800"></div>
+            
+            <div class="no-print mt-20 pt-10 border-t text-center">
+                <img src="https://github.com/jin-ship-jack/wechat-format/blob/main/pay.jpg?raw=true" class="w-32 mx-auto mb-2 rounded-lg grayscale hover:grayscale-0 transition-all">
+                <p class="text-[10px] text-gray-400">简历助您斩获 Offer，欢迎打赏</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+
+        editor.value = `# 姓名 - 职位\n\n- 📞 电话：138-0000-0000\n- 📧 邮箱：jack@example.com\n- 🔗 GitHub：github.com/jin-ship-jack\n\n## 💼 工作经历\n\n### 某科技有限公司 | 高级开发工程师 | 2022 - 至今\n- 负责微信排版工具的开发与维护\n- 成功实现零成本变现，月度咖啡金额稳步增长\n\n## 🛠️ 技术栈\n- 前端：HTML, Tailwind CSS, JavaScript\n- 部署：Vercel, GitHub Actions\n\n## 🎓 教育背景\n- 某大学 | 计算机科学与技术 | 学士`;
+
+        function update() {
+            preview.innerHTML = marked.parse(editor.value);
+        }
+        editor.addEventListener('input', update);
+        update();
+    </script>
+</body>
+</html>
